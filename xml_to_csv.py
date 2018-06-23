@@ -2,7 +2,16 @@ import os
 import glob
 import pandas as pd
 import xml.etree.ElementTree as ET
+import sys
+import argparse
 
+
+def get_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("input_path", help="path to annotations folder", type=str)
+    parser.add_argument("output_path", help="path to csv file", type=str)
+    args = parser.parse_args()
+    return(args)
 
 def xml_to_csv(path):
     xml_list = []
@@ -26,9 +35,9 @@ def xml_to_csv(path):
 
 
 def main():
-    image_path = os.path.join(os.getcwd(), 'annotations')
-    xml_df = xml_to_csv(image_path)
-    xml_df.to_csv('raccoon_labels.csv', index=None)
+    args = get_args()
+    xml_df = xml_to_csv(args.input_path)
+    xml_df.to_csv(args.output_path, index=None)
     print('Successfully converted xml to csv.')
 
 
